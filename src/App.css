@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@layer base {
+	@font-face {
+		font-family: "Vazirmatn";
+		src: url("./assets/fonts/Vazirmatn-Bold.woff2") format("woff2");
+		font-weight: 700;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Vazirmatn";
+		src: url("./assets/fonts/Vazirmatn-Regular.woff2") format("woff2");
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	body {
+		font-family: "Vazirmatn", sans-serif;
+		font-display: swap;
+	}
+
+	.farsi-numbers {
+		font-feature-settings: "ss01";
+	}
+
+	a,
+	button {
+		@apply hover:cursor-pointer;
+	}
+
+	.transition-modal {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+	}
+
+	.opacity-0 {
+		opacity: 0;
+	}
+
+	.opacity-100 {
+		opacity: 1;
+	}
+
+	.transform-none {
+		transform: none;
+	}
+
+	.transform-translate-y-full {
+		transform: translateY(100%); /* Adjust offset for desired transition */
+	}
+}
