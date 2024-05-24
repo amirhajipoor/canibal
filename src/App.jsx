@@ -1,18 +1,23 @@
+import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "./Components/Header";
 import Man from "./assets/img/man.png";
 import Canibal from "./assets/img/canibal.png";
 import BoatImage from "./assets/img/boat.png";
-import "./App.css";
-import StartModal from "./Components/StartModal";
 import Timer from "./Components/Timer";
 import { useAnimate } from "framer-motion";
+import StartGameDialog from "./Components/StartGameDialog";
+import SplashMenu from "./Components/SplashMenu";
+
+const COUNTDOWN = 60 * 5; // five minutes
 
 export default function App() {
 	const [aSide, setASide] = useState({ man: 3, canibal: 3 });
 	const [bSide, setBSide] = useState({ man: 0, canibal: 0 });
 	const [boat, setBoat] = useState({ man: 0, canibal: 0, location: "a" });
-	const [showStartModal, setShowStartModal] = useState(true);
+	const [showStartDialog, setShowStartDialog] = useState(false);
+	const [showMenu, setShowMenu] = useState(true);
+	const [countdown, setCountDown] = useState(COUNTDOWN);
 	const [ButtonMessage, setButtonMessage] = useState("قایق، حرکت کن!");
 	const [score, setScore] = useState(0);
 	const [started, setStarted] = useState(false);
@@ -32,12 +37,14 @@ export default function App() {
 				bSide.canibal != 0)
 		) {
 			alert("شما باختید!");
+			saveMaxRecord();
 			setScore(0);
 			setStarted(false);
 		}
 
 		if (bSide.man == 3 && bSide.canibal == 3) {
 			alert("شما برنده شدید.");
+			saveMaxRecord();
 		}
 
 		document.body.classList.add("overflow-y-hidden");
@@ -45,8 +52,7 @@ export default function App() {
 	}, [aSide, bSide, boat]);
 
 	const startGame = () => {
-		console.log("game is started");
-		setShowStartModal(false);
+		setShowStartDialog(false);
 		setStarted(true);
 	};
 
@@ -58,6 +64,19 @@ export default function App() {
 	const goToA = () => {
 		animate(scope.current, { x: 0, y: -30 });
 		setBoat((boat) => ({ ...boat, location: "a" }));
+	};
+
+	const saveMaxRecord = () => {
+		let currentRecord = localStorage.getItem("record");
+
+		if (!currentRecord || score > currentRecord.score) {
+			let record = {
+				score: score,
+				time: COUNTDOWN - countdown,
+			};
+
+			localStorage.setItem("record", JSON.stringify(record));
+		}
 	};
 
 	const pickUp = (type, side) => {
@@ -112,14 +131,17 @@ export default function App() {
 		}
 	};
 
+	const onContinue = () => {
+		setShowMenu(false);
+		setShowStartDialog(true);
+	};
+
 	return (
 		<main className="bg-green-200 max-w-md mx-auto relative min-h-screen overflow-x-hidden">
 			<Header score={score} />
-			<StartModal
-				className="mt-16 max-w-md"
-				open={showStartModal}
-				onStart={startGame}
-			/>
+
+			<StartGameDialog open={showStartDialog} onStart={startGame} />
+			<SplashMenu open={showMenu} onContinue={onContinue} />
 
 			{/* aSide */}
 			<div className="h-48 bg-green-200 flex items-end pb-20 px-6 gap-x-2">
@@ -178,7 +200,13 @@ export default function App() {
 					</button>
 				))}
 			</div>
-			<Timer started={started} onFinished={() => console.log("onFinished")} />
+
+			<Timer
+				countdown={countdown}
+				setCountDown={setCountDown}
+				started={started}
+				onFinished={() => console.log("onFinished")}
+			/>
 			{boat.man > 0 || boat.canibal > 0 ? (
 				<div className="fixed bottom-6 pr-6">
 					<button

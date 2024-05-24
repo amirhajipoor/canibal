@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Timer({ started, onFinished }) {
-	const [countdown, setCountDown] = useState(5 * 60); // five minutes
+export default function Timer({
+	started,
+	onFinished,
+	countdown,
+	setCountDown,
+}) {
 	const intervalRef = useRef(null);
 
 	useEffect(() => {

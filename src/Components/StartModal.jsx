@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-
 export default function StartModal({ open = true, onStart, className }) {
 	return (
 		<div>
