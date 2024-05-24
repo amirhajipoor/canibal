@@ -16,6 +16,7 @@ export default function SplashMenu({ onStart, onContinue, open = true }) {
 
 	function handleContinue(e) {
 		e.preventDefault();
+		if (!name) return;
 		localStorage.setItem("name", name);
 		onContinue();
 	}
@@ -28,6 +29,7 @@ export default function SplashMenu({ onStart, onContinue, open = true }) {
 						نام شما
 					</label>
 					<input
+						required={true}
 						onChange={(e) => setName(e.target.value)}
 						value={name}
 						className="px-4 py-2 rounded-lg shadow-sm text-slate-800 border border-slate-300 mt-2 w-full"
