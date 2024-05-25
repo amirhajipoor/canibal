@@ -71,7 +71,7 @@ export default function App() {
 	};
 
 	const saveMaxRecord = () => {
-		let currentRecord = localStorage.getItem("record");
+		let currentRecord = JSON.parse(localStorage.getItem("record"));
 
 		if (!currentRecord || score > currentRecord.score) {
 			let record = {
