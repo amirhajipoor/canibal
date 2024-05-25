@@ -26,6 +26,18 @@ export default function App() {
 	const boatRef = useRef(null);
 
 	useEffect(() => {
+		checkCondition();
+
+		if (bSide.man == 3 && bSide.canibal == 3) {
+			alert("شما برنده شدید.");
+			saveMaxRecord();
+		}
+
+		document.body.classList.add("overflow-y-hidden");
+		setScore((bSide.man + bSide.canibal) * 100);
+	}, [aSide, bSide, boat]);
+
+	const checkCondition = () => {
 		if (
 			(boat.location == "b" &&
 				aSide.canibal > aSide.man &&
@@ -41,15 +53,7 @@ export default function App() {
 			setScore(0);
 			setStarted(false);
 		}
-
-		if (bSide.man == 3 && bSide.canibal == 3) {
-			alert("شما برنده شدید.");
-			saveMaxRecord();
-		}
-
-		document.body.classList.add("overflow-y-hidden");
-		setScore((bSide.man + bSide.canibal) * 100);
-	}, [aSide, bSide, boat]);
+	};
 
 	const startGame = () => {
 		setShowStartDialog(false);
@@ -121,6 +125,8 @@ export default function App() {
 
 			setBoat((boat) => ({ ...boat, man: boat.man - 1 }));
 		}
+
+		checkCondition();
 	};
 
 	const handleStep = () => {
