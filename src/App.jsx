@@ -26,27 +26,23 @@ export default function App() {
 	const boatRef = useRef(null);
 
 	useEffect(() => {
-		checkCondition();
-
 		if (bSide.man == 3 && bSide.canibal == 3) {
 			alert("شما برنده شدید.");
 			saveMaxRecord();
 		}
 
+		checkCondition();
+
 		document.body.classList.add("overflow-y-hidden");
 		setScore((bSide.man + bSide.canibal) * 100);
+
+		console.log("something changed");
 	}, [aSide, bSide, boat]);
 
 	const checkCondition = () => {
 		if (
-			(boat.location == "b" &&
-				aSide.canibal > aSide.man &&
-				aSide.man != 0 &&
-				aSide.canibal != 0) ||
-			(boat.location == "a" &&
-				bSide.canibal > bSide.man &&
-				bSide.man != 0 &&
-				bSide.canibal != 0)
+			(aSide.canibal > aSide.man && aSide.man != 0 && aSide.canibal != 0) ||
+			(bSide.canibal > bSide.man && bSide.man != 0 && bSide.canibal != 0)
 		) {
 			alert("شما باختید!");
 			saveMaxRecord();
@@ -125,8 +121,6 @@ export default function App() {
 
 			setBoat((boat) => ({ ...boat, man: boat.man - 1 }));
 		}
-
-		checkCondition();
 	};
 
 	const handleStep = () => {
