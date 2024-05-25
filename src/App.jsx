@@ -31,8 +31,6 @@ export default function App() {
 			saveMaxRecord();
 		}
 
-		checkCondition();
-
 		document.body.classList.add("overflow-y-hidden");
 		setScore((bSide.man + bSide.canibal) * 100);
 
@@ -129,6 +127,8 @@ export default function App() {
 		} else {
 			goToA();
 		}
+
+		checkCondition();
 	};
 
 	const onContinue = () => {
